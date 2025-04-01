@@ -1,0 +1,45 @@
+Table users {
+  id uuid [primary key] // Utilisation de UUID
+  username varchar
+  password_hash varchar
+  email varchar
+  organization_id uuid [ref: > organizations.id] // Référence à une organisation
+  role_id uuid [ref: > roles.id] // Référence au rôle
+  created_at timestamp
+}
+
+Table organizations {
+  id uuid [primary key] // Utilisation de UUID
+  name varchar
+  created_at timestamp
+  owner_id uuid [ref: > users.id] // Référence à un utilisateur
+}
+
+Table contacts {
+  id uuid [primary key] // Utilisation de UUID
+  user_id uuid [ref: > users.id] // Référence à un utilisateur
+  contact_user_id uuid [ref: > users.id] // Référence à un contact
+  organization_id uuid [ref: > organizations.id] // Référence à une organisation
+}
+
+Table messages {
+  id uuid [primary key] // Utilisation de UUID
+  sender_id uuid [ref: > users.id] // Référence à l'utilisateur qui envoie
+  recipient_id uuid [ref: > users.id] // Référence à l'utilisateur qui reçoit
+  content text [note: 'Content of the message']
+  timestamp timestamp
+}
+
+Table roles {
+  id uuid [primary key] // Utilisation de UUI
+  name varchar [note: 'Propriétaire, Admin, etc.']
+  permissions text
+}
+
+// Relations
+
+Ref: organizations.owner_id > users.id // many-to-one
+Ref: contacts.user_id > users.id // many-to-one
+Ref: contacts.contact_user_id > users.id // many-to-one
+Ref: messages.sender_id > users.id // many-to-one
+Ref: messages.recipient_id > users.id // many-to-one

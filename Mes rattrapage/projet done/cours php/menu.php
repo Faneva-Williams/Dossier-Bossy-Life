@@ -1,0 +1,1 @@
+<?php echo "<a href='index.php'> ACCUEIL </a> - <a href='promotions.php'> PROMOTIONS DE NOEL</a> - <a href='aboutus.php'> QUI NOUS SOMME </a>" ?>
